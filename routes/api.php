@@ -18,8 +18,10 @@ Route::get('/user', function (Request $request) {
 Route::post('register', [AuthControler::class, 'register']);
 Route::post('login', [AuthControler::class, 'login']);
 Route::get('/public-posts', [PostController::class, 'publicPosts']);
+Route::get('/users', [AuthControler::class, 'getUsers']);
 
 Route::middleware([IsUserAuth::class])->group(function () {
+   Route::get('me', [AuthControler::class, 'getUser']);
     Route::post('logout', [AuthControler::class, 'logout']);
 
     // posts

@@ -35,7 +35,7 @@ class PostController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Posts $id)
+    public function update(Request $request, $id)
     {
         $post = Posts::find($id);
         if ($post->user_id !== Auth::id() && !Auth::user()->isAdmin) {
@@ -43,9 +43,8 @@ class PostController extends Controller
         }
 
         $validated = $request->validate([
-            'clicks' => 'required|integer|min:0',
-            'points' => 'required|integer|min:0',
-            'duration' => 'required|integer|min:1',
+            'title' => 'required|string|min:1',
+            'content' => 'required|string|min:1',
         ]);
 
         $post->update($validated);
@@ -57,7 +56,7 @@ class PostController extends Controller
     }
 
     // solo puede eliminar el post el q lo ha creado o el admin
-    public function destroy(Posts $id)
+    public function destroy($id)
     {
         $post = Posts::find($id);
         if ($post->user_id !== Auth::id() && !Auth::user()->isAdmin) {
